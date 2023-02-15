@@ -1,3 +1,23 @@
+# Homework TODO GraphQL
+
+## Requirements
+
+Preferrably in the following order:
+
+- Mutation: Create a new list
+- Query: Fetch lists of TODOs for given user (use your email)
+- Query: Fetch a single TODO list
+- Mutation: Delete a list
+- Mutation: Add a TODO
+- Mutation: Delete a TODO
+- Mutation: Update a TODO, i.e. set as finished
+
+## 
+
+[GraphQL API](https://harbour-movies.vercel.app/api/graphql)
+Note: Remember to update state after mutation
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
