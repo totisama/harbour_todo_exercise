@@ -1,6 +1,6 @@
 # Homework TODO GraphQL
 
-## Requirements
+## Requirements (1%)
 
 Preferrably in the following order:
 
@@ -12,7 +12,11 @@ Preferrably in the following order:
 - Mutation: Delete a TODO
 - Mutation: Update a TODO, i.e. set as finished
 
-## 
+## Bonus (extra 1%)
+
+- Add some animations to the UI
+- 
+
 
 [GraphQL API](https://harbour-movies.vercel.app/api/graphql)
 Note: Remember to update state after mutation
