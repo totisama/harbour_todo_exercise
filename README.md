@@ -2,10 +2,9 @@
 
 ## Requirements (1%)
 
-Preferrably in the following order:
+Preferably in the following order:
 
-- Mutation: Create a new list
-- Query: Fetch lists of TODOs for given user (use your email)
+- Swap you own email for mine on `src/constants/email.ts`
 - Query: Fetch a single TODO list
 - Mutation: Delete a list
 - Mutation: Add a TODO

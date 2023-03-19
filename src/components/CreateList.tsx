@@ -2,7 +2,9 @@
 
 import { client } from '@/lib/client';
 import { gql } from 'graphql-request';
-import { MyList } from '@/components/MyLists';
+import { TodoList } from '@/components/MyLists';
+import { MY_EMAIL_KEY } from '../constants/email';
+
 
 const CREATE_TODO_LIST_MUTATION = gql`
   mutation CreateList($input: CreateTODOListInput!) {
@@ -16,20 +18,18 @@ const CREATE_TODO_LIST_MUTATION = gql`
 `;
 
 type CreateListProps = {
-  onCreate(list: MyList): void;
+  onCreate(list: TodoList): void;
 };
 
 export const CreateList = ({ onCreate }: CreateListProps) => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const listName = formData.get('listName');
-    const email = formData.get('email');
 
-    const res = await client.request(CREATE_TODO_LIST_MUTATION, {
+    const res = await client.request<{ createTODOList: TodoList }>(CREATE_TODO_LIST_MUTATION, {
       input: {
-        name: listName,
-        email,
+        name: formData.get('listName'),
+        email: MY_EMAIL_KEY,
       },
     });
 
@@ -46,13 +46,6 @@ export const CreateList = ({ onCreate }: CreateListProps) => {
           name="listName"
           className="input"
           placeholder="List name"
-        />
-        <input
-          type="email"
-          id="email"
-          name="email"
-          className="input"
-          placeholder="Email"
         />
         <button type="submit" className="btn btn-primary">
           Create List

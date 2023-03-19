@@ -6,32 +6,32 @@ import { CreateList } from '@/components/CreateList';
 import { randomColor } from '@/utils/randomColor';
 import { useState } from 'react';
 
-export type MyList = {
-  id: string;
+export type TodoList = {
+  id: number;
   created_at: string;
   name: string;
   email: string;
 };
 
 type MyListsProps = {
-  list: MyList[];
+  list: TodoList[];
 };
 
 export const MyLists = ({ list = [] }: MyListsProps) => {
-  const [todoLists, setTodoLists] = useState<MyList[]>(list);
+  const [todoLists, setTodoLists] = useState<TodoList[]>(list);
 
-  const onCreateHandler = (newTodoList: MyList) => {
-    setTodoLists((prev) => [...prev, newTodoList]);
+  const onCreateHandler = (newTodoList: TodoList) => {
+    setTodoLists([...todoLists, newTodoList]);
   };
 
   const onDeletedHandler = (id: string) => {
-    // TODO: delete list
-    // Update state
+    // TODO: delete list with query
+    // Update state with new list
   };
 
   return (
     <div className="flex flex-col gap-8 text-center">
-      <h1 className="text-4xl">My TODO lists</h1>
+      <h1 className="text-4xl">{todoLists.length > 0 ? 'My TODO lists' : 'No lists yet!'}</h1>
       <ul>
         {todoLists.map((item) => (
           <li key={item.id}>

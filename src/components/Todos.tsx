@@ -1,10 +1,9 @@
-'use-client';
+"use client";
 
+import { useState } from 'react';
 import { Heart } from '@/components/icons/Heart';
 import { Close } from '@/components/icons/Close';
-
 import { AddTodo } from '@/components/AddTodo';
-import { useState } from 'react';
 
 export type Todo = {
   id: number;
