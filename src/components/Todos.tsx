@@ -1,9 +1,11 @@
-"use client";
+'use client';
 
 import { useState } from 'react';
 import { Heart } from '@/components/icons/Heart';
 import { Close } from '@/components/icons/Close';
 import { AddTodo } from '@/components/AddTodo';
+import { gql } from 'graphql-request';
+import { client } from '@/lib/client';
 
 export type Todo = {
   id: number;
@@ -16,19 +18,71 @@ type TodosProps = {
   list: Todo[];
 };
 
+const CREATE_TODO = gql`
+  mutation Mutation($listId: Int!, $desc: String!) {
+    addTODO(listId: $listId, desc: $desc) {
+      id
+      desc
+      finished
+    }
+  }
+`;
+
+const DELETE_TODO = gql`
+  mutation Mutation($removeTodoId: Int!, $listId: Int!) {
+    removeTODO(id: $removeTodoId, listId: $listId)
+  }
+`;
+
+const MARK_TODO_AS_FINISHED = gql`
+  mutation Mutation($finishTodoId: Int!, $finishTodoListId2: Int!) {
+    finishTODO(id: $finishTodoId, listId: $finishTodoListId2) {
+      desc
+      finished
+      id
+    }
+  }
+`;
+
 export const Todos = ({ list = [], listId }: TodosProps) => {
   const [todos, setTodos] = useState<Todo[]>(list);
 
-  const onAddHandler = (desc: string) => {
-    console.log(`Add todo ${desc}`);
+  const onAddHandler = async (desc: string) => {
+    const { addTODO } = await client.request<{ addTODO: Todo }>(CREATE_TODO, {
+      listId: listId,
+      desc: desc,
+    });
+
+    setTodos((prevState) => [...prevState, addTODO]);
   };
 
-  const onRemoveHandler = (id: number) => {
-    console.log(`Remove todo ${id}`);
+  const onRemoveHandler = async (id: number) => {
+    const { removeTODO } = await client.request<{ removeTODO: boolean }>(
+      DELETE_TODO,
+      {
+        listId: listId,
+        removeTodoId: id,
+      },
+    );
+
+    const newTodos = todos.filter((todo) => todo.id !== id);
+
+    setTodos(newTodos);
   };
 
-  const onFinishHandler = (id: number) => {
-    console.log(`Mark todo ${id} as finished`);
+  const onFinishHandler = async (id: number) => {
+    const { finishTODO } = await client.request<{ finishTODO: Todo }>(
+      MARK_TODO_AS_FINISHED,
+      {
+        finishTodoId: id,
+        finishTodoListId2: listId,
+      },
+    );
+
+    const todosList = todos.filter((todo) => todo.id !== id);
+    todosList.push(finishTODO);
+
+    setTodos(todosList);
   };
 
   return (
